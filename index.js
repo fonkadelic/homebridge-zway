@@ -263,6 +263,7 @@ ZWayServerPlatform.prototype = {
             "sensorBinary.Door/Window",
             "sensorBinary.alarm_door",
             "sensorBinary.alarmSensor_flood",
+            "sensorBinary.Motion",
 
             // | Possible regression, this couldn't become a primary before, but it's needed for some LeakSensors...
             // v But now a "sensorBinary.General purpose" can become primary... Bug or Feature?
@@ -581,6 +582,9 @@ ZWayServerAccessory.prototype = {
             case "sensorBinary.alarmSensor_flood":
                 services.push(new Service.LeakSensor(vdev.metrics.title, vdev.id));
                 break;
+            case "sensorBinary.Motion":
+                services.push(new Service.MotionSensor(vdev.metrics.title, vdev.id));
+                break;
             case "doorlock":
                 services.push(new Service.LockMechanism(vdev.metrics.title, vdev.id));
                 break;
@@ -654,6 +658,7 @@ ZWayServerAccessory.prototype = {
             map[(new Characteristic.LockCurrentState).UUID] = ["doorlock"];
             map[(new Characteristic.LockTargetState).UUID] = ["doorlock"];
             map[(new Characteristic.StatusTampered).UUID] = ["sensorBinary.Tamper"];
+            map[(new Characteristic.MotionDetected).UUID] = ["sensorBinary.Motion"];
             map[(new Characteristic.ProgrammableSwitchEvent).UUID] = ["toggleButton"];
             map[(new Characteristic.ProgrammableSwitchOutputState).UUID] = ["toggleButton"];
             map[(new ZWayServerPlatform.CurrentPowerConsumption).UUID] = ["sensorMultilevel.meterElectric_watt"];
